@@ -12,8 +12,10 @@ function saveToDos() {
 
 function deleteToDo(event) {
   const li = event.target.parentElement;
-  console.log(li.id);
   li.remove();
+  toDos = toDos.filter(toDo => toDo.id !== parseInt(li.id));
+  // toDos DB에서 todo를 지운 뒤
+  saveToDos(); // 한 번 더 불러와야 함
 }
 
 function paintTodo(newTodo) {
@@ -54,4 +56,7 @@ if (savedToDos !== null) {
   const parsedToDos = JSON.parse(savedToDos);
   toDos = parsedToDos;
   parsedToDos.forEach(paintTodo); // arrow function
+  /* 이해하기!! 중요!
+  forEach 함수는 이 paintToDo를 parsedToDos 배열의 요소마다 실행됨
+  forEach는 각각의 item을 줌. item이 object가 됨 */
 }

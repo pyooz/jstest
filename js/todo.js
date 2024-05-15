@@ -12,13 +12,15 @@ function saveToDos() {
 
 function deleteToDo(event) {
   const li = event.target.parentElement;
+  console.log(li.id);
   li.remove();
 }
 
 function paintTodo(newTodo) {
   const li = document.createElement("li");
+  li.id = newTodo.id;
   const span = document.createElement("span");
-  span.innerText = newTodo;
+  span.innerText = newTodo.text; // paintTodo는 text를 받았지만 이제는 object를 받음 그래서 newTodo에 .text를 붙여 줌!
   const button = document.createElement("button");
   button.innerText = "❌";
   button.addEventListener("click", deleteToDo);
@@ -33,8 +35,14 @@ function handleToDoSubmit(event) {
   // input의 value를 새로운 변수에 복사 (newTodo에 저장하는 역할)
   toDoInput.value = "";
   // 칸을 비워 주는 역할, newTodo의 값이 사라지는 것이 아님
-  toDos.push(newTodo);
-  paintTodo(newTodo);
+  const newTodoObj = {
+    text: newTodo,
+    id: Date.now()
+    // 완전한 랜덤은 아니지만 값을 랜덤으로 부여하기에 적합
+    // id로 각각의 li item을 구별하고 싶음
+  };
+  toDos.push(newTodoObj);
+  paintTodo(newTodoObj); // string으로 주는 것 대신 newTodoObj를 줌
   saveToDos();
 }
 
